@@ -22,6 +22,8 @@ public class PanelPrincipal extends JPanel implements ActionListener {
     private PanelBotones botonera;
     private JTextArea areaTexto;
     private int tipoOperacion;
+    private double numero1;
+    private double numero2;
 
     // Constructor
     public PanelPrincipal() {
@@ -52,15 +54,57 @@ public class PanelPrincipal extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-	// Se obtiene el objeto que desencadena el evento
+        // Se obtiene el objeto que desencadena el evento
         Object o = ae.getSource();
-	// Si es un botón
-        if (o instanceof JButton){
+        // Si es un botón
+        if (o instanceof JButton) {
             System.out.println(((JButton) o).getText());
             areaTexto.setText(((JButton) o).getText());
-        }
-	
-	// RESTO DEL CÓDIGO DE LA LÓGICA DE LA CALCULADORA
-    }
+            String textoBoton = ((JButton) o).getText();
 
+            // Si el botón presionado es un número
+            if (textoBoton.matches("\\d")) {
+                
+                
+                
+                String textoActual = areaTexto.getText();
+                areaTexto.setText(textoActual + textoBoton);
+                
+                
+            } else if (textoBoton.matches("[+\\-*/]")) { // Si el botón presionado es una operación
+                
+                
+                
+                tipoOperacion = textoBoton.charAt(0);
+                numero1 = Double.parseDouble(areaTexto.getText());
+                areaTexto.setText("");
+                
+                
+            } else if (textoBoton.equals("=")) { // Si el botón presionado es el botón de igual
+                numero2 = Double.parseDouble(areaTexto.getText());
+                double resultado = 0;
+
+                switch (tipoOperacion) {
+                    case '+':
+                        resultado = numero1 + numero2;
+                        break;
+                    case '-':
+                        resultado = numero1 - numero2;
+                        break;
+                    case '*':
+                        resultado = numero1 * numero2;
+                        break;
+                    case '/':
+                        resultado = numero1 / numero2;
+                        break;
+                }
+
+                areaTexto.setText(Double.toString(resultado));
+            } // Si el botón presionado es el botón de borrar
+            else if (textoBoton.equals("C")) {
+                areaTexto.setText("");
+            }
+        }
+
+    }
 }
